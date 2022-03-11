@@ -20,7 +20,7 @@ export const useBlocks = ({
   const [blocks, setBlocks] = React.useState<Block[]>([]);
 
   React.useEffect(() => {
-    const sentences = text.match(/[^\.!\?]+[\.!\?]+/g)!;
+    const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
     const sentenceGroups = sentences.reduce<string[][]>(
       (blocks, sentence) => {
         const lastBlock = blocks[blocks.length - 1];
