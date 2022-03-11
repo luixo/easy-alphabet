@@ -8,8 +8,22 @@ const Wrapper = styled("div", {
   cursor: "pointer",
 });
 
-const Title = styled("span", {
+const Title = styled("div", {
   marginRight: 8,
+  display: "flex",
+});
+
+const TitleIcon = styled("div", {
+  marginRight: 8,
+  transition: "all linear 200ms",
+
+  variants: {
+    open: {
+      true: {
+        transform: "rotate(90deg)",
+      },
+    },
+  },
 });
 
 const Line = styled("div", {
@@ -32,7 +46,7 @@ export const Spoiler: React.FC<Props> = (props) => {
     <>
       <Wrapper onClick={switchOpen}>
         <Title>
-          {isOpen ? "🔽" : "▶"} {props.header}
+          <TitleIcon open={isOpen}>▶</TitleIcon> {props.header}
         </Title>
         <Line />
       </Wrapper>

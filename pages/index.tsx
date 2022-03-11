@@ -115,7 +115,7 @@ const Home: NextPage = () => {
           <Spoiler header="Settings">
             Text:
             <TextArea rows={4} onChange={setTextMemo} value={text} />
-            Symbol limit for a paragraph:
+            <span>Paragraph symbol limit</span>
             <SymbolLimitInput
               type="number"
               value={symbolLimit}
