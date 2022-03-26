@@ -8,7 +8,7 @@ type BlocksParams = {
 };
 
 type Block = {
-  alphabetGroup: AlphabetGroup;
+  alphabetGroup?: AlphabetGroup;
   text: string;
 };
 
@@ -42,11 +42,24 @@ export const useBlocks = ({
         const maxGroupIndex = Math.min(index, alphabet.length - 1);
         for (let i = 0; i <= maxGroupIndex; i++) {
           const alphabetGroup = alphabet[i];
-          block = alphabetGroup.from.reduce(
-            (block, fromElement) =>
-              block.replace(new RegExp(fromElement, "gi"), alphabetGroup.to),
-            block
-          );
+          block = alphabetGroup.from.reduce((block, fromElement) => {
+            let counter = 0;
+            return block.replace(
+              new RegExp(fromElement, "gi"),
+              (element, index, block) => {
+                if (alphabetGroup.transformPredicators) {
+                  if (
+                    alphabetGroup.transformPredicators.some(
+                      (predicator) => !predicator(element, index, block)
+                    )
+                  ) {
+                    return element;
+                  }
+                }
+                return alphabetGroup.to[counter++ % alphabetGroup.to.length];
+              }
+            );
+          }, block);
         }
         return {
           text: block,

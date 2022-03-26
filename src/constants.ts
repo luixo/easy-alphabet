@@ -131,70 +131,123 @@ export const MAX_SYMBOL_LIMIT = 10000;
 export const DEFAULT_ALPHABET: Alphabet = [
   {
     from: ["а"],
-    to: "ა",
+    to: ["ა"],
   },
   {
     from: ["о"],
-    to: "ო",
+    to: ["ო"],
   },
   {
     from: ["е", "э"],
-    to: "ე",
+    to: ["ე"],
   },
   {
     from: ["н"],
-    to: "ნ",
+    to: ["ნ"],
   },
   {
-    from: ["и"],
-    to: "ი",
+    from: ["и", "ы", "й"],
+    to: ["ი"],
   },
   {
     from: ["т"],
-    to: "ტ",
+    to: ["ტ", "თ"],
   },
   {
     from: ["р"],
-    to: "რ",
+    to: ["რ", "ღ"],
   },
   {
     from: ["с"],
-    to: "ს",
+    to: ["ს"],
   },
   {
     from: ["л"],
-    to: "ლ",
+    to: ["ლ"],
   },
   {
     from: ["в"],
-    to: "ვ",
+    to: ["ვ"],
   },
   {
     from: ["к"],
-    to: "კ",
+    to: ["კ", "ქ"],
   },
   {
     from: ["м"],
-    to: "მ",
+    to: ["მ"],
   },
   {
     from: ["п"],
-    to: "პ",
+    to: ["პ"],
   },
   {
     from: ["у"],
-    to: "უ",
+    to: ["უ"],
   },
   {
     from: ["д"],
-    to: "დ",
+    to: ["დ"],
+    transformPredicators: [
+      (_el, index, text) => !["ж", "з"].includes(text[index + 1]),
+    ],
   },
   {
     from: ["б"],
-    to: "ბ",
+    to: ["ბ"],
   },
   {
     from: ["г"],
-    to: "გ",
+    to: ["გ"],
+  },
+  {
+    from: ["дз"],
+    to: ["ძ"],
+  },
+  {
+    from: ["дж"],
+    to: ["ჯ"],
+  },
+  {
+    from: ["з"],
+    transformPredicators: [(_el, index, text) => text[index - 1] !== "д"],
+    to: ["ზ"],
+  },
+  {
+    from: ["ц"],
+    to: ["ჱ"],
+  },
+  {
+    from: ["ж"],
+    transformPredicators: [(_el, index, text) => text[index - 1] !== "д"],
+    to: ["ჟ"],
+  },
+  {
+    from: ["ф"],
+    to: ["ფ"],
+  },
+  {
+    from: ["ш"],
+    to: ["შ"],
+  },
+  {
+    from: ["ч"],
+    to: ["ჩ", "ჭ"],
+  },
+  {
+    from: ["ц"],
+    to: ["ც", "წ"],
+  },
+  {
+    from: ["х"],
+    to: ["ხ", "ჰ"],
+  },
+  {
+    from: ["я"],
+    to: ["ია"],
+  },
+  {
+    from: ["ю"],
+    to: ["იუ"],
   },
 ];
