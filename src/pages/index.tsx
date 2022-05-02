@@ -7,17 +7,17 @@ import { Trans, useTranslation } from "react-i18next";
 
 import { Spoiler } from "../components/spoiler";
 import {
-  DEFAULT_ALPHABET,
   DEFAULT_SYMBOL_LIMIT,
-  DEFAULT_TEXT,
+  DEFAULT_TEXTS,
   MAX_SYMBOL_LIMIT,
   MIN_SYMBOL_LIMIT,
 } from "../constants";
-import { Alphabet } from "../types";
+import { AlphabetDescription } from "../types";
 import { useBlocks } from "../hooks/use-blocks";
 import { styled } from "../styles";
 import { LanguageSelector } from "../components/language-selectors";
 import { shuffle } from "../utils";
+import { AlphabetPicker } from "../components/alphabet-picker";
 
 const Container = styled("div", {
   padding: "0 1rem",
@@ -33,6 +33,7 @@ const Main = styled("main", {
 
 const Footer = styled("footer", {
   display: "flex",
+  flexDirection: "column",
   flex: 1,
   padding: "12px 0",
   borderTop: "1px solid #eaeaea",
@@ -40,8 +41,13 @@ const Footer = styled("footer", {
   alignItems: "center",
 });
 
+const FooterBlock = styled("div", {
+  "& + &": {
+    marginTop: 8,
+  },
+});
+
 const FooterLink = styled("a", {
-  marginLeft: 6,
   textDecoration: "underline",
 });
 
@@ -63,9 +69,18 @@ const SettingsWrapper = styled("div", {
 
 const SettingsBlock = styled("div", {
   display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
   padding: "10px 0",
+
   "&:not(:first-of-type)": {
     borderTop: "1px solid gray",
+  },
+});
+
+const SettingsElement = styled("div", {
+  "& + &": {
+    marginTop: 8,
   },
 });
 
@@ -77,8 +92,8 @@ const Blocks = styled("div");
 
 const TopRight = styled("div", {
   position: "fixed",
-  top: 12,
-  right: 12,
+  top: 8,
+  right: 8,
   zIndex: 999,
 });
 
@@ -89,22 +104,35 @@ const Hint = styled("p", {
   padding: 4,
 });
 
-const ActionButton = styled("button", {
+const ResetButton = styled("button", {
+  marginTop: 12,
+  alignSelf: "flex-start",
+
   "& + &": {
-    marginLeft: 16,
+    marginLeft: 8,
   },
 });
 
+const TextBlock = styled("p", {
+  whiteSpace: "pre",
+});
+
 const Home: NextPage = () => {
-  const [text, setText] = useLocalStorage("text", DEFAULT_TEXT);
   const [symbolLimit, setSymbolLimit] = useLocalStorage(
     "symbol_limit",
     DEFAULT_SYMBOL_LIMIT
   );
   const [showHints, setShownHints] = useLocalStorage("show_hints", true);
-  const [alphabet, setAlphabet] = React.useState<Alphabet>(DEFAULT_ALPHABET);
+  const [alphabet, setAlphabet] = useLocalStorage<AlphabetDescription | null>(
+    "alphabet",
+    null
+  );
+  const [text, setText] = useLocalStorage(
+    "text",
+    alphabet ? DEFAULT_TEXTS[alphabet.transform] : ""
+  );
 
-  const blocks = useBlocks({ text, symbolLimit, alphabet });
+  const blocks = useBlocks({ text, symbolLimit, groups: alphabet?.groups });
 
   const { t } = useTranslation();
 
@@ -129,13 +157,37 @@ const Home: NextPage = () => {
     React.ChangeEventHandler<HTMLInputElement>
   >((e) => setShownHints(e.currentTarget.checked), [setShownHints]);
 
-  const setRandomAlphabet = React.useCallback<React.MouseEventHandler>(() => {
-    setAlphabet((prevAlphabet) => shuffle(prevAlphabet));
+  const shuffleGroups = React.useCallback<React.MouseEventHandler>(() => {
+    setAlphabet((prevAlphabet) =>
+      prevAlphabet
+        ? {
+            ...prevAlphabet,
+            isCustom: true,
+            groups: shuffle(prevAlphabet.groups),
+          }
+        : prevAlphabet
+    );
   }, [setAlphabet]);
-
-  const setDefaultAlphabet = React.useCallback<React.MouseEventHandler>(() => {
-    setAlphabet(DEFAULT_ALPHABET);
-  }, [setAlphabet]);
+  const resetAlphabet = React.useCallback(
+    () => setAlphabet(null),
+    [setAlphabet]
+  );
+  const resetText = React.useCallback(() => {
+    if (!alphabet) {
+      return;
+    }
+    setText(DEFAULT_TEXTS[alphabet.transform]);
+  }, [alphabet, setText]);
+  const selectAlphabet = React.useCallback(
+    (alphabet: AlphabetDescription) => {
+      setAlphabet(alphabet);
+      console.log("text", text);
+      if (!text) {
+        setText(DEFAULT_TEXTS[alphabet.transform]);
+      }
+    },
+    [text, setText, setAlphabet]
+  );
 
   return (
     <Container>
@@ -155,64 +207,115 @@ const Home: NextPage = () => {
         <SettingsWrapper>
           <Spoiler header={t("settings.title")}>
             <SettingsBlock>
-              {t("settings.textarea")}
-              <TextArea rows={4} onChange={setTextMemo} value={text} />
+              <SettingsElement>{t("settings.textarea")}</SettingsElement>
+
+              <SettingsElement>
+                <TextArea rows={4} onChange={setTextMemo} value={text} />
+              </SettingsElement>
+
+              <SettingsElement>
+                <button onClick={resetText}>{t("settings.resetText")}</button>
+              </SettingsElement>
             </SettingsBlock>
 
             <SettingsBlock>
-              <span>{t("settings.symbolsLimit")}</span>
-              <SymbolLimitInput
-                type="number"
-                value={symbolLimit}
-                onChange={setSymbolLimitMemo}
-                min={15}
-                max={5000}
-              />
+              <span>
+                {t("settings.symbolsLimit")}{" "}
+                <SymbolLimitInput
+                  type="number"
+                  value={symbolLimit}
+                  onChange={setSymbolLimitMemo}
+                  min={15}
+                  max={5000}
+                />
+              </span>
             </SettingsBlock>
 
             <SettingsBlock>
-              <span>{t("settings.showHints")}</span>
-              <input
-                type="checkbox"
-                checked={showHints}
-                onChange={setShowHintsMemo}
-              />
+              <span>
+                <input
+                  type="checkbox"
+                  checked={showHints}
+                  onChange={setShowHintsMemo}
+                />
+                {t("settings.showHints")}
+              </span>
             </SettingsBlock>
 
-            <SettingsBlock>
-              <ActionButton onClick={setRandomAlphabet}>
-                {t("settings.randomAlphabet")}
-              </ActionButton>
-              <ActionButton onClick={setDefaultAlphabet}>
-                {t("settings.defaultAlphabet")}
-              </ActionButton>
-            </SettingsBlock>
+            {alphabet ? (
+              <>
+                <SettingsBlock>
+                  <SettingsElement>
+                    {t("settings.currentLanguage", {
+                      language: alphabet.isCustom
+                        ? t("alphabet.mixed", { name: t(alphabet.nameKey) })
+                        : t(alphabet.nameKey),
+                    })}
+                  </SettingsElement>
+                </SettingsBlock>
+
+                <SettingsBlock>
+                  <button onClick={shuffleGroups}>
+                    {t("settings.randomAlphabet")}
+                  </button>
+                </SettingsBlock>
+              </>
+            ) : null}
           </Spoiler>
         </SettingsWrapper>
 
-        <Blocks>
-          {blocks.map((block, index) => (
-            <React.Fragment key={index}>
-              <div>
-                {showHints && block.alphabetGroup ? (
-                  <Hint>
-                    {`${block.alphabetGroup.from.join(", ")} → ${
-                      block.alphabetGroup.to
-                    }`}
-                  </Hint>
-                ) : null}
-                <p>{block.text}</p>
-              </div>
-            </React.Fragment>
-          ))}
-        </Blocks>
+        {alphabet ? (
+          <>
+            <div>
+              <ResetButton onClick={resetAlphabet}>
+                {t("settings.resetAlphabet")}
+              </ResetButton>
+
+              <ResetButton onClick={resetText}>
+                {t("settings.resetText")}
+              </ResetButton>
+            </div>
+
+            <Blocks>
+              {blocks.map((block, index) => (
+                <React.Fragment key={index}>
+                  <div>
+                    {showHints && block.alphabetGroup ? (
+                      <Hint>
+                        {`${block.alphabetGroup.from.join(
+                          ", "
+                        )} → ${block.alphabetGroup.to.join(", ")}`}
+                      </Hint>
+                    ) : null}
+                    <TextBlock>{block.text}</TextBlock>
+                  </div>
+                </React.Fragment>
+              ))}
+            </Blocks>
+          </>
+        ) : (
+          <AlphabetPicker onSelect={selectAlphabet} />
+        )}
       </Main>
 
       <Footer>
-        <Trans
-          i18nKey="footer.builtBy"
-          components={[<FooterLink key="link" href="https://t.me/luixo" />]}
-        />
+        <FooterBlock>
+          <Trans
+            i18nKey="footer.builtBy"
+            components={[<FooterLink key="link" href="https://t.me/luixo" />]}
+          />
+        </FooterBlock>
+        <FooterBlock>
+          <Trans
+            i18nKey="footer.inspiredBy"
+            components={[
+              <FooterLink
+                key="link"
+                href="https://palaman.livejournal.com/260927.html"
+              />,
+            ]}
+          />
+        </FooterBlock>
       </Footer>
     </Container>
   );

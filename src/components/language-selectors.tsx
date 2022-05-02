@@ -29,6 +29,7 @@ const countries: Country[] = Object.values(MAPPING);
 
 const FlagSelector = styled(ReactFlagsSelect, {
   background: "white",
+  padding: 5,
 });
 
 export const LanguageSelector = () => {

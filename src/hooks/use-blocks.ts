@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Alphabet, AlphabetGroup } from "../types";
+import { AlphabetGroup } from "../types";
 
 type BlocksParams = {
   text: string;
-  alphabet: Alphabet;
+  groups: AlphabetGroup[] | undefined;
   symbolLimit: number;
 };
 
@@ -14,12 +14,16 @@ type Block = {
 
 export const useBlocks = ({
   text,
-  alphabet,
+  groups,
   symbolLimit,
 }: BlocksParams): Block[] => {
   const [blocks, setBlocks] = React.useState<Block[]>([]);
 
   React.useEffect(() => {
+    if (!groups) {
+      setBlocks([{ text }]);
+      return;
+    }
     const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
     const sentenceGroups = sentences.reduce<string[][]>(
       (blocks, sentence) => {
@@ -39,35 +43,24 @@ export const useBlocks = ({
     setBlocks(
       sentenceGroups.map((sentences, index) => {
         let block = sentences.join("");
-        const maxGroupIndex = Math.min(index, alphabet.length - 1);
+        const maxGroupIndex = Math.min(index, groups.length - 1);
         for (let i = 0; i <= maxGroupIndex; i++) {
-          const alphabetGroup = alphabet[i];
+          const alphabetGroup = groups[i];
           block = alphabetGroup.from.reduce((block, fromElement) => {
             let counter = 0;
             return block.replace(
               new RegExp(fromElement, "gi"),
-              (element, index, block) => {
-                if (alphabetGroup.transformPredicators) {
-                  if (
-                    alphabetGroup.transformPredicators.some(
-                      (predicator) => !predicator(element, index, block)
-                    )
-                  ) {
-                    return element;
-                  }
-                }
-                return alphabetGroup.to[counter++ % alphabetGroup.to.length];
-              }
+              alphabetGroup.to[counter++ % alphabetGroup.to.length]
             );
           }, block);
         }
         return {
           text: block,
-          alphabetGroup: alphabet[index],
+          alphabetGroup: groups[index],
         };
       })
     );
-  }, [text, alphabet, symbolLimit]);
+  }, [text, groups, symbolLimit]);
 
   return blocks;
 };

@@ -23,11 +23,24 @@ const enTranslation = {
     textarea: "Text to transform",
     symbolsLimit: "Paragraph symbol limit",
     showHints: "Show hints",
-    defaultAlphabet: "Default alphabet",
+    resetAlphabet: "Reset alphabet",
     randomAlphabet: "Mix alphabet",
+    currentLanguage: "Current language: {{language}}",
+    resetText: "Reset text",
   },
   footer: {
     builtBy: "Built by <0>@luixo</0>",
+    inspiredBy: "Inspired by <0>Maksim Solohin</0>",
+  },
+  languagePicker: {
+    selectLanguage: "Choose an alphabet:",
+  },
+  alphabet: {
+    mixed: "{{name}} (mixed)",
+    names: {
+      "ka-ru": "georgian → russian",
+      "ru-ka": "russian → georgian",
+    },
   },
 };
 
@@ -41,11 +54,24 @@ const ruTranslation: typeof enTranslation = {
     textarea: "Текст для перевода",
     symbolsLimit: "Количество символов на абзац",
     showHints: "Показывать подсказки",
-    defaultAlphabet: "Алфавит по-умолчанию",
+    resetAlphabet: "Сбросить алфавит",
     randomAlphabet: "Перемешать алфавит",
+    currentLanguage: "Текущий язык: {{language}}",
+    resetText: "Сбросить текст",
   },
   footer: {
     builtBy: "Автор - <0>@luixo</0>",
+    inspiredBy: "Оригинальная идея - <0>Максим Солохин</0>",
+  },
+  languagePicker: {
+    selectLanguage: "Выбери алфавит:",
+  },
+  alphabet: {
+    mixed: "{{name}} (перемешан)",
+    names: {
+      "ka-ru": "грузинский → русский",
+      "ru-ka": "русский → грузинский",
+    },
   },
 };
 
