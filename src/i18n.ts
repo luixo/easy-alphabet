@@ -5,7 +5,7 @@ import React from "react";
 
 const languageDetector = new LanguageDetector();
 
-export const LANGUAGES = ["en", "ru"] as const;
+export const LANGUAGES = ["en", "ru", "ka"] as const;
 export type Language = typeof LANGUAGES[number];
 export const NAMESPACES = ["common"] as const;
 export type I18nNamespace = typeof NAMESPACES[number];
@@ -75,6 +75,37 @@ const ruTranslation: typeof enTranslation = {
   },
 };
 
+const kaTranslation: typeof enTranslation = {
+  meta: {
+    title: "მარტივი ანბანი",
+    description: "გენერირებულია create-next-app დახმარებით",
+  },
+  settings: {
+    title: "ტექსტი და სხვა პარამეტრები",
+    textarea: "სათარგმნი ტექსტი",
+    symbolsLimit: "სიმბოლოების რაოდენობა აბზაცში",
+    showHints: "მინიშნებების ჩვენება",
+    resetAlphabet: "ანბანის გადატვირთვა",
+    randomAlphabet: "ანბანის არევა",
+    currentLanguage: "აქტუალური ენა: {{language}}",
+    resetText: "ტექსტის გადატვირთვა",
+  },
+  footer: {
+    builtBy: "აცტორი - <0>@luixo</0>",
+    inspiredBy: "ორიგინალური იდეა- <0> მაკსიმ  სოლოხინ</0>",
+  },
+  languagePicker: {
+    selectLanguage: "აირჩიე ანბანი:",
+  },
+  alphabet: {
+    mixed: "{{name}} (არეულოა)",
+    names: {
+      "ka-ru": "ქართული → რუსული",
+      "ru-ka": "რუსული → ქართული",
+    },
+  },
+};
+
 export type ResourceType = {
   common: typeof enTranslation;
 };
@@ -82,6 +113,7 @@ export type ResourceType = {
 export const resources: Record<Language, ResourceType> = {
   en: { common: enTranslation },
   ru: { common: ruTranslation },
+  ka: { common: kaTranslation },
 };
 
 export const getI18n = (language?: Language): i18n => {

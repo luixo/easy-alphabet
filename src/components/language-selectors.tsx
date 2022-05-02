@@ -8,6 +8,7 @@ import { styled } from "../styles";
 const MAPPING = {
   ru: "RU",
   en: "GB",
+  ka: "GE",
 } as const;
 
 const DEMAPPING = Object.entries(MAPPING).reduce<Record<Country, Language>>(
@@ -23,6 +24,7 @@ type Country = typeof MAPPING[keyof typeof MAPPING];
 const LABELS: Record<Country, string> = {
   RU: "RU",
   GB: "EN",
+  GE: "KA",
 };
 
 const countries: Country[] = Object.values(MAPPING);
