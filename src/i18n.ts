@@ -91,8 +91,8 @@ const kaTranslation: typeof enTranslation = {
     resetText: "ტექსტის გადატვირთვა",
   },
   footer: {
-    builtBy: "აცტორი - <0>@luixo</0>",
-    inspiredBy: "ორიგინალური იდეა- <0> მაკსიმ  სოლოხინ</0>",
+    builtBy: "ავტორი - <0>@luixo</0>",
+    inspiredBy: "ორიგინალური იდეა- <0>მაკსიმ  სოლოხინ</0>",
   },
   languagePicker: {
     selectLanguage: "აირჩიე ანბანი:",
