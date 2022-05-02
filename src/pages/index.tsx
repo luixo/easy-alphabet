@@ -114,7 +114,7 @@ const ResetButton = styled("button", {
 });
 
 const TextBlock = styled("p", {
-  whiteSpace: "pre",
+  whiteSpace: "pre-wrap",
 });
 
 const Home: NextPage = () => {
