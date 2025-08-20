@@ -1,61 +1,34 @@
-import * as React from "react";
-import { styled } from "../styles";
+import React from "react";
 
-const Wrapper = styled("div", {
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  cursor: "pointer",
-});
+import { twMerge } from "tailwind-merge";
 
-const Title = styled("div", {
-  marginRight: 8,
-  display: "flex",
-});
+type Props = React.ComponentProps<"div"> & { header: string };
 
-const TitleIcon = styled("div", {
-  marginRight: 8,
-  transition: "all linear 200ms",
-
-  variants: {
-    open: {
-      true: {
-        transform: "rotate(90deg)",
-      },
-    },
-  },
-});
-
-const Line = styled("div", {
-  flex: 1,
-  borderTop: "1px solid black",
-});
-
-const Spoiled = styled("div", {
-  padding: "20px 32px",
-});
-
-type Props = {
-  header: string;
-};
-
-export const Spoiler: React.FC<Props> = (props) => {
+export const Spoiler: React.FC<Props> = ({ header, className, ...props }) => {
   const [isOpen, setOpen] = React.useState(false);
   const switchOpen = React.useCallback(() => setOpen((x) => !x), [setOpen]);
   return (
-    <>
-      <Wrapper onClick={switchOpen}>
-        <Title>
-          <TitleIcon open={isOpen}>▶</TitleIcon> {props.header}
-        </Title>
-        <Line />
-      </Wrapper>
+    <div className="flex w-full flex-col gap-4">
+      <div
+        className="flex cursor-pointer items-center gap-2"
+        onClick={switchOpen}
+      >
+        <div className="flex items-center gap-2">
+          <div
+            className={twMerge(
+              "transform transition-all duration-200 ease-linear",
+              isOpen ? "rotate-90" : undefined,
+            )}
+          >
+            ▶
+          </div>
+          {header}
+        </div>
+        <div className="flex-1 border-t border-black" />
+      </div>
       {isOpen ? (
-        <>
-          <Spoiled>{props.children}</Spoiled>
-          <Line />
-        </>
+        <div className={twMerge("pl-6", className)} {...props} />
       ) : null}
-    </>
+    </div>
   );
 };

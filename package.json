@@ -1,31 +1,65 @@
 {
   "name": "easy-alphabet",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "build": "vite build",
+    "dev": "vite",
+    "format": "prettier --write .",
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --max-warnings=0 --fix .",
+    "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
+  "pre-commit": [
+    "typecheck",
+    "lint-staged"
+  ],
+  "lint-staged": {
+    "*.{j,t}s{,x}": [
+      "prettier --write",
+      "eslint --max-warnings=0 --fix"
+    ]
+  },
   "dependencies": {
-    "@stitches/react": "^1.2.7",
-    "i18next": "^21.6.14",
-    "i18next-browser-languagedetector": "^6.1.3",
-    "next": "12.1.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-flags-select": "^2.1.2",
-    "react-i18next": "^11.15.6",
-    "react-use-cookie": "^1.3.0",
-    "use-local-storage": "^2.3.6"
+    "@tanstack/react-store": "^0.7.3",
+    "country-flag-icons": "^1.5.19",
+    "i18next": "^25.3.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-i18next": "^15.6.1",
+    "remeda": "^2.30.0",
+    "tailwind-merge": "^3.3.1",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
-    "@types/node": "17.0.21",
-    "@types/react": "17.0.40",
-    "eslint": "8.10.0",
-    "eslint-config-next": "12.1.0",
-    "typescript": "4.6.2"
-  }
+    "@eslint/js": "^9.33.0",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@tailwindcss/vite": "^4.1.12",
+    "@types/country-flag-icons": "^1.2.2",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "rc",
+    "globals": "^16.3.0",
+    "lint-staged": "^16.1.5",
+    "postcss": "^8.5.6",
+    "pre-commit": "^1.2.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-packagejson": "^2.5.19",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "packageManager": "yarn@4.9.2+sha512.1fc009bc09d13cfd0e19efa44cbfc2b9cf6ca61482725eb35bbc5e257e093ebf4130db6dfe15d604ff4b79efd8e1e8e99b25fa7d0a6197c9f9826358d4d65c3c"
 }

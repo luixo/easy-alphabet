@@ -1,7 +1,6 @@
-import useCookie from "react-use-cookie";
-import { DEFAULT_LANGUAGE, Language } from "../i18n";
+import { useLocalStorage } from "usehooks-ts";
 
-export const useLanguage = (): [Language, (language: Language) => void] => {
-  const [lang, setLang] = useCookie("i18nextLng", DEFAULT_LANGUAGE);
-  return [lang as Language, setLang];
-};
+import { type Language, baseLanguage } from "~/utils/i18n";
+
+export const useLanguage = () =>
+  useLocalStorage<Language>("easy-alphabet-language", baseLanguage);

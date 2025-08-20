@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply font-inter p-4;
+}
+#root {
+  @apply flex flex-col gap-8;
+}
+*,
+*::before,
+*::after {
+  @apply box-border;
+}

@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Легкий алфавит",
+    "description": "Сгенерировано с помощью create-next-app"
+  },
+  "settings": {
+    "title": "Текст и другие настройки",
+    "textarea": "Текст для перевода",
+    "symbolsLimit": "Количество символов на абзац",
+    "showHints": "Показывать подсказки",
+    "resetAlphabet": "Сбросить алфавит",
+    "randomAlphabet": "Перемешать алфавит",
+    "currentLanguage": "Текущий язык: {{language}}",
+    "resetText": "Сбросить текст"
+  },
+  "footer": {
+    "builtBy": "Автор - <0>@luixo</0>",
+    "inspiredBy": "Оригинальная идея - <0>Максим Солохин</0>"
+  },
+  "languagePicker": { "selectLanguage": "Выбери алфавит:" },
+  "alphabet": {
+    "mixed": "{{name}} (перемешан)",
+    "names": {
+      "ka-ru": "грузинский → русский",
+      "ru-ka": "русский → грузинский"
+    }
+  }
+}

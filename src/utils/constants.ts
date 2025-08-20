@@ -1,4 +1,4 @@
-import { AlphabetDescription, AlphabetTransform } from "./types";
+import type { AlphabetDescription, AlphabetTransform } from "./types";
 
 export const DEFAULT_TEXTS: Record<AlphabetTransform, string> = {
   "ru-ka": `В тридевятом царстве, в тридесятом государстве жил-был я.

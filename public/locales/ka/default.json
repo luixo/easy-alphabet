@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "title": "მარტივი ანბანი",
+    "description": "გენერირებულია create-next-app დახმარებით"
+  },
+  "settings": {
+    "title": "ტექსტი და სხვა პარამეტრები",
+    "textarea": "სათარგმნი ტექსტი",
+    "symbolsLimit": "სიმბოლოების რაოდენობა აბზაცში",
+    "showHints": "მინიშნებების ჩვენება",
+    "resetAlphabet": "ანბანის გადატვირთვა",
+    "randomAlphabet": "ანბანის არევა",
+    "currentLanguage": "აქტუალური ენა: {{language}}",
+    "resetText": "ტექსტის გადატვირთვა"
+  },
+  "footer": {
+    "builtBy": "ავტორი - <0>@luixo</0>",
+    "inspiredBy": "ორიგინალური იდეა- <0>მაკსიმ  სოლოხინ</0>"
+  },
+  "languagePicker": { "selectLanguage": "აირჩიე ანბანი:" },
+  "alphabet": {
+    "mixed": "{{name}} (არეულოა)",
+    "names": { "ka-ru": "ქართული → რუსული", "ru-ka": "რუსული → ქართული" }
+  }
+}
