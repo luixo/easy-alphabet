@@ -5,12 +5,20 @@ An app to easily learn new alphabets (currently, georgian from russian)
 ### Prerequisites
 
 ```sh
-corepack enable
-yarn
+bun install --frozen-lockfile
 ```
 
 ### Development
 
 ```sh
-yarn dev
+bun run dev
+```
+
+### Checks
+
+```sh
+bun run format
+bun run lint
+bun run typecheck
+bun run build
 ```
