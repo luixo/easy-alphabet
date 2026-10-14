@@ -36,8 +36,8 @@ export const Settings = () => {
 			prevAlphabet
 				? {
 						...prevAlphabet,
-						isCustom: true,
 						groups: shuffle(prevAlphabet.groups),
+						isCustom: true,
 					}
 				: prevAlphabet,
 		);
@@ -55,6 +55,7 @@ export const Settings = () => {
 				/>
 
 				<button
+					type="button"
 					onClick={resetText}
 					className="cursor-pointer rounded-sm border px-2 py-1"
 				>
@@ -70,11 +71,11 @@ export const Settings = () => {
 					value={symbolLimit}
 					onChange={(e) => {
 						const currentLimit =
-							parseInt(e.currentTarget.value) || DEFAULT_SYMBOL_LIMIT;
+							Math.trunc(Number(e.currentTarget.value)) || DEFAULT_SYMBOL_LIMIT;
 						setSymbolLimit(
 							clamp(currentLimit, {
-								min: MIN_SYMBOL_LIMIT,
 								max: MAX_SYMBOL_LIMIT,
+								min: MIN_SYMBOL_LIMIT,
 							}),
 						);
 					}}
@@ -104,6 +105,7 @@ export const Settings = () => {
 
 					<SettingsSection className="items-start">
 						<button
+							type="button"
 							className="cursor-pointer rounded-sm border px-2 py-1"
 							onClick={shuffleGroups}
 						>

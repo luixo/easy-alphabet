@@ -8,9 +8,9 @@ import { useLanguage } from "~/hooks/use-language";
 import type { Language } from "~/utils/i18n";
 
 const MAPPING = {
-	ru: "RU",
 	en: "GB",
 	ka: "GE",
+	ru: "RU",
 } as const;
 
 const DEMAPPING = entries(MAPPING).reduce(
@@ -24,14 +24,14 @@ const DEMAPPING = entries(MAPPING).reduce(
 type Country = (typeof MAPPING)[keyof typeof MAPPING];
 
 const LABELS: Record<Country, string> = {
-	RU: "RU",
 	GB: "EN",
 	GE: "KA",
+	RU: "RU",
 };
 const FLAGS: Record<Country, React.FC<React.ComponentProps<typeof GB>>> = {
-	RU,
 	GB,
 	GE,
+	RU,
 };
 
 const countries = values(MAPPING);
@@ -43,7 +43,7 @@ export const LanguageSelector: React.FC<React.ComponentProps<"div">> = ({
 	const [language, setLanguage] = useLanguage();
 	const { i18n } = useTranslation();
 	React.useEffect(() => {
-		i18n.changeLanguage(language);
+		void i18n.changeLanguage(language);
 	}, [i18n, language]);
 	return (
 		<div
@@ -53,7 +53,9 @@ export const LanguageSelector: React.FC<React.ComponentProps<"div">> = ({
 			{countries.map((country) => {
 				const FlagComponent = FLAGS[country];
 				return (
-					<div
+					<button
+						type="button"
+						aria-pressed={language === DEMAPPING[country]}
 						key={country}
 						onClick={() => setLanguage(DEMAPPING[country])}
 						className={twMerge(
@@ -63,7 +65,7 @@ export const LanguageSelector: React.FC<React.ComponentProps<"div">> = ({
 					>
 						{LABELS[country]}
 						<FlagComponent className="h-4 w-5.75 border" />
-					</div>
+					</button>
 				);
 			})}
 		</div>

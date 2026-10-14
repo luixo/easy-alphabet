@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import { createInstance } from "i18next";
 import type React from "react";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { keys } from "remeda";
@@ -12,19 +12,18 @@ import {
 	languages,
 } from "~/utils/i18n";
 
-const i18nInstance = i18n
-	.createInstance({
-		fallbackLng: baseLanguage,
-		defaultNS: defaultNamespace,
-		ns: [defaultNamespace],
-		supportedLngs: keys(languages),
-		interpolation: {
-			// React doesn't need to escape values
-			escapeValue: false,
-		},
-		partialBundledLanguages: true,
-		lng: "en",
-	})
+const i18nInstance = createInstance({
+	defaultNS: defaultNamespace,
+	fallbackLng: baseLanguage,
+	interpolation: {
+		// React doesn't need to escape values
+		escapeValue: false,
+	},
+	lng: "en",
+	ns: [defaultNamespace],
+	partialBundledLanguages: true,
+	supportedLngs: keys(languages),
+})
 	.use(initReactI18next)
 	.use(getBackendModule());
 

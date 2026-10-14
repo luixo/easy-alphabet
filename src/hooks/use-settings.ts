@@ -33,15 +33,15 @@ export const useSettings = () => {
 		[alphabetState, textState],
 	);
 	return {
+		alphabetState,
+		hintsState: useLocalStorage("easy-alphabet-show-hints", true),
+		resetAlphabet,
+		resetText,
+		selectAlphabet,
 		symbolLimitState: useLocalStorage(
 			"easy-alphabet-symbol-limit",
 			DEFAULT_SYMBOL_LIMIT,
 		),
-		hintsState: useLocalStorage("easy-alphabet-show-hints", true),
-		alphabetState,
-		resetAlphabet,
 		textState,
-		resetText,
-		selectAlphabet,
 	};
 };

@@ -8,8 +8,8 @@
 		"dev": "vite",
 		"format": "oxfmt --write",
 		"format:verify": "oxfmt --check",
-		"lint": "eslint --max-warnings=0 .",
-		"lint:fix": "eslint --max-warnings=0 --fix .",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix",
 		"lint-staged": "lint-staged",
 		"preview": "vite preview",
 		"typecheck": "bun check"
@@ -26,7 +26,6 @@
 		"usehooks-ts": "^3.1.1"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.33.0",
 		"@luixo/configs": "0.1.0",
 		"@tailwindcss/postcss": "^4.1.12",
 		"@tailwindcss/vite": "^4.1.12",
@@ -35,26 +34,19 @@
 		"@types/react": "^19.1.10",
 		"@types/react-dom": "^19.1.7",
 		"@vitejs/plugin-react": "^5.0.0",
-		"eslint": "^9.33.0",
-		"eslint-config-prettier": "^10.1.8",
-		"eslint-import-resolver-typescript": "^4.4.4",
-		"eslint-plugin-import-x": "^4.16.1",
-		"eslint-plugin-jsx-a11y": "^6.10.2",
-		"eslint-plugin-react": "^7.37.5",
-		"eslint-plugin-react-hooks": "rc",
-		"globals": "^16.3.0",
 		"lint-staged": "^16.1.5",
 		"oxfmt": "^0.73.0",
+		"oxlint": "^1.88.0",
+		"oxlint-tsgolint": "^7.0.2004",
 		"postcss": "^8.5.6",
 		"pre-commit": "2.0.0",
 		"typescript": "~5.8.3",
-		"typescript-eslint": "^8.39.1",
 		"vite": "^7.1.2",
 		"vite-tsconfig-paths": "^5.1.4"
 	},
 	"lint-staged": {
 		"*.{j,t}s{,x}": [
-			"eslint --max-warnings=0 --fix"
+			"oxlint --fix"
 		]
 	},
 	"pre-commit": [

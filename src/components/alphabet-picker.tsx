@@ -18,12 +18,14 @@ export const AlphabetPicker: React.FC<Props> = (props) => {
 			</h2>
 			<ul className="flex flex-col gap-2">
 				{entries(DEFAULT_ALPHABETS).map(([key, alphabet]) => (
-					<li
-						className="cursor-pointer rounded-md border px-1 py-2 hover:underline"
-						key={key}
-						onClick={() => props.onSelect(alphabet)}
-					>
-						{t(alphabet.nameKey)}
+					<li key={key}>
+						<button
+							type="button"
+							className="w-full cursor-pointer rounded-md border px-1 py-2 text-left hover:underline"
+							onClick={() => props.onSelect(alphabet)}
+						>
+							{t(alphabet.nameKey)}
+						</button>
 					</li>
 				))}
 			</ul>

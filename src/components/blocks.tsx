@@ -21,45 +21,46 @@ export const Blocks: React.FC<{ alphabet: AlphabetDescription }> = ({
 		hintsState: [showHints],
 	} = useSettings();
 	const blocks = React.useMemo<Block[]>(() => {
-		if (!alphabet) {
-			return [{ text }];
-		}
 		const { groups } = alphabet;
-		const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+		const sentences = text.match(/[^.!?]+[.!?]+/gu) || [text];
 		const sentenceGroups = sentences.reduce<string[][]>(
-			(blocks, sentence) => {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				const lastBlock = blocks[blocks.length - 1]!;
+			(acc, sentence) => {
+				// The accumulator starts with one block and only grows.
+				// oxlint-disable-next-line typescript/no-non-null-assertion
+				const lastBlock = acc.at(-1)!;
 				lastBlock.push(sentence);
 				const symbols = lastBlock.reduce(
-					(amount, sentence) => amount + sentence.length,
+					(amount, lastBlockSentence) => amount + lastBlockSentence.length,
 					0,
 				);
 				if (symbols >= symbolLimit) {
-					blocks.push([]);
+					acc.push([]);
 				}
-				return blocks;
+				return acc;
 			},
 			[[]],
 		);
-		return sentenceGroups.map((sentences, index) => {
-			let block = sentences.join("");
+		return sentenceGroups.map((sentenceGroup, index) => {
+			let block = sentenceGroup.join("");
 			const maxGroupIndex = Math.min(index, groups.length - 1);
-			for (let i = 0; i <= maxGroupIndex; i++) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			for (let i = 0; i <= maxGroupIndex; i += 1) {
+				// The loop is bounded by the last group index.
+				// oxlint-disable-next-line typescript/no-non-null-assertion
 				const alphabetGroup = groups[i]!;
-				block = alphabetGroup.from.reduce((block, fromElement) => {
+				block = alphabetGroup.from.reduce((fromBlock, fromElement) => {
 					let counter = 0;
-					return block.replace(
-						new RegExp(fromElement, "gi"),
-						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-						alphabetGroup.to[counter++ % alphabetGroup.to.length]!,
+					counter += 1;
+					return fromBlock.replaceAll(
+						new RegExp(fromElement, "giu"),
+						// Default alphabet groups always contain replacement symbols.
+						// oxlint-disable-next-line typescript/no-non-null-assertion
+						alphabetGroup.to[counter % alphabetGroup.to.length]!,
 					);
 				}, block);
 			}
 			return {
-				text: block,
 				alphabetGroup: groups[index],
+				text: block,
 			};
 		});
 	}, [text, symbolLimit, alphabet]);
@@ -67,6 +68,7 @@ export const Blocks: React.FC<{ alphabet: AlphabetDescription }> = ({
 		<div className="flex flex-col gap-4">
 			<div className="flex gap-4">
 				<button
+					type="button"
 					className="cursor-pointer rounded-sm border px-2 py-1"
 					onClick={resetAlphabet}
 				>
@@ -74,6 +76,7 @@ export const Blocks: React.FC<{ alphabet: AlphabetDescription }> = ({
 				</button>
 
 				<button
+					type="button"
 					className="cursor-pointer rounded-sm border px-2 py-1"
 					onClick={resetText}
 				>
@@ -83,6 +86,7 @@ export const Blocks: React.FC<{ alphabet: AlphabetDescription }> = ({
 
 			<div>
 				{blocks.map((block, index) => (
+					// oxlint-disable-next-line react/no-array-index-key
 					<React.Fragment key={index}>
 						<div>
 							{showHints && block.alphabetGroup ? (

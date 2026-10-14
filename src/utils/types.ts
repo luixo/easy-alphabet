@@ -15,6 +15,7 @@ export type AlphabetDescription = {
 };
 
 export type Equals<X, Y> =
+	// oxlint-disable-next-line no-magic-numbers
 	(<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
 		? true
 		: false;
