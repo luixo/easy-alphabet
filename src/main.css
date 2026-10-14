@@ -3,19 +3,19 @@
 @import "tailwindcss";
 
 @theme {
-  --font-inter: "Inter", sans-serif;
+	--font-inter: "Inter", sans-serif;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
-  @apply font-inter p-4;
+	@apply p-4 font-inter;
 }
 #root {
-  @apply flex flex-col gap-8;
+	@apply flex flex-col gap-8;
 }
 *,
 *::before,
 *::after {
-  @apply box-border;
+	@apply box-border;
 }
