@@ -9,8 +9,8 @@
 		"format": "oxfmt --write",
 		"format:verify": "oxfmt --check",
 		"lint": "oxlint",
-		"lint:fix": "oxlint --fix",
 		"lint-staged": "lint-staged",
+		"lint:fix": "oxlint --fix",
 		"preview": "vite preview",
 		"typecheck": "bun check"
 	},
